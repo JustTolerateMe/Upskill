@@ -247,6 +247,62 @@ body {
 .flex-center { display: flex; justify-content: center; align-items: center; }
 
 /* ==========================================
+   DICTIONARY CARD SPECIFICS
+   ========================================== */
+.dictionary-card {
+  padding: 20px 25px;
+  margin-top: 15px;
+  border-left: 4px solid var(--neon-green);
+  background: rgba(17, 24, 39, 0.4);
+}
+
+.word-pron {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.word-pron .word {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.word-pron .pron {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  color: var(--neon-cyan);
+}
+
+.word-pron .pos {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.dictionary-card .definition {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.dictionary-card .usage-note {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 8px;
+}
+
+.dictionary-card .usage-note em {
+  color: var(--neon-green);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ==========================================
    SLIDE 1: INTRO SPECIFICS
    ========================================== */
 .quote-card {
