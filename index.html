@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upskilling: The Master Pillar</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Ambient Glows -->
+  <div class="glow-orb orb-1"></div>
+  <div class="glow-orb orb-2"></div>
+  <div class="glow-orb orb-3"></div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Main Presentation Container -->
+  <div class="presentation-container">
+    
+    <!-- Slide 1: Intro (The Master Pillar) -->
+    <section class="slide active" id="slide-1">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">PILLAR #4 (The Core)</div>
+          <h1 class="headline">Upskilling: The <span class="text-gradient">Master Pillar</span></h1>
+          
+          <div class="quote-card glass-card">
+            <span class="quote-icon">“</span>
+            <p class="quote-text">
+              Ownership, accountability, teamwork, and business impact are timeless values. 
+              <strong>Upskilling</strong> is what keeps those values effective in a changing world.
+            </p>
+          </div>
+
+          <p class="slide-desc">
+            As the workplace evolves under AI, automation, and shifting dynamics, classic corporate virtues crumble without continuous learning. Here is why upskilling carries the other four.
+          </p>
+        </div>
+        
+        <div class="slide-visual">
+          <div class="hero-image-frame glass-card">
+            <img src="assets/carrying_pillars.jpg" alt="Upskilling carrying the other four pillars" class="hero-image">
+            <div class="hero-caption">Upskilling carrying the other four pillars</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2: Ownership & Accountability -->
+    <section class="slide" id="slide-2">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">OWNERSHIP & ACCOUNTABILITY</div>
+          <h2 class="slide-title">Powering the <span class="text-gradient">Foundation</span></h2>
+          
+          <div class="pillar-block">
+            <div class="pillar-header">
+              <span class="icon">✊</span>
+              <h3>Ownership</h3>
+            </div>
+            <p class="pillar-quote">
+              “Modern ownership is not just completing tasks. It’s adapting fast enough to continue delivering value.”
+            </p>
+            <p class="pillar-desc">
+              You can't take ownership if your skills become outdated. If tools change, markets shift, and workflows evolve, ownership means learning continuously.
+            </p>
+          </div>
+
+          <div class="pillar-block mt-4">
+            <div class="pillar-header">
+              <span class="icon">🛡️</span>
+              <h3>Accountability</h3>
+            </div>
+            <p class="pillar-quote red-border">
+              “In today’s world, refusing to learn eventually becomes a business risk.”
+            </p>
+            <p class="pillar-desc">
+              Refusing to adapt makes someone slower and dependent on others. Eventually, accountability weakens because results decline.
+            </p>
+          </div>
+        </div>
+
+        <div class="slide-visual flex-center">
+          <div class="meme-cards-container">
+            <!-- Dino card -->
+            <div class="meme-card dinosaur glass-card">
+              <div class="card-glow red"></div>
+              <span class="meme-emoji">🦕</span>
+              <h4>Fragile Dinosaur</h4>
+              <p class="meme-quote">"But I've done it this way for 10 years!"</p>
+              <div class="meme-status bad">Vulnerable to shifts</div>
+            </div>
+            <!-- Future card -->
+            <div class="meme-card hacker glass-card">
+              <div class="card-glow green"></div>
+              <span class="meme-emoji">⚡</span>
+              <h4>Upskilled Adaptor</h4>
+              <p class="meme-quote">"Let me automate that workflow in 5 minutes."</p>
+              <div class="meme-status good">Reduces Fragility</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Business Impact (The Multiplier) -->
+    <section class="slide" id="slide-3">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">BUSINESS IMPACT</div>
+          <h2 class="slide-title">Multiplying <span class="text-gradient">Business Impact</span></h2>
+          <p class="slide-desc">
+            Technology compounds the impact of skilled people. A single upskilled employee combining <strong>AI + Analytics + Communication</strong> can outperform entire traditional workflows.
+          </p>
+          <ul class="impact-list">
+            <li><span class="check">✓</span> Solves problems faster and automates repetition</li>
+            <li><span class="check">✓</span> Extracts insights earlier and makes better decisions</li>
+            <li><span class="check">✓</span> Delivers dramatically higher output using AI assistants</li>
+          </ul>
+        </div>
+
+        <div class="slide-visual flex-center">
+          <div class="interactive-slider-card glass-card">
+            <h3>Upskilling Multiplier Simulator</h3>
+            <p class="subtitle">Drag to add skills & AI tools to your workflow</p>
+            
+            <div class="multiplier-display">
+              <span class="mult-num" id="multNum">1.0</span><span class="mult-x">x</span>
+              <div class="mult-label" id="multLabel">Standard Employee</div>
+            </div>
+
+            <div class="range-container">
+              <input type="range" min="1" max="10" value="1" step="0.5" class="slider" id="impactSlider">
+              <div class="slider-marks">
+                <span>1x</span>
+                <span>3x</span>
+                <span>5x</span>
+                <span>8x</span>
+                <span>10x</span>
+              </div>
+            </div>
+
+            <div class="skills-unlocked">
+              <h4>Active Skills & Tools:</h4>
+              <div class="skills-badges" id="skillsBadges">
+                <span class="badge active">Legacy Workflow</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: Teamwork & The AI's Wisdom -->
+    <section class="slide" id="slide-4">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">TEAMWORK & ADAPTATION</div>
+          <h2 class="slide-title">Reducing <span class="text-gradient">Future Fragility</span></h2>
+          
+          <div class="pillar-block">
+            <div class="pillar-header">
+              <span class="icon">🤝</span>
+              <h3>Teamwork / Collaboration</h3>
+            </div>
+            <p class="pillar-quote">
+              “A team grows only as fast as its willingness to learn together.”
+            </p>
+            <p class="pillar-desc">
+              Modern collaboration is sharing knowledge, teaching tools, and adapting together. Teams fail when knowledge is siloed and only a few people adapt.
+            </p>
+          </div>
+
+          <div class="advice-note glass-card">
+            <h4>An AI's Perspective</h4>
+            <p>
+              "For humans, upskilling is less about 'learning more' and more about **reducing future fragility**. Someone who continuously learns becomes adaptable instead of replaceable."
+            </p>
+          </div>
+        </div>
+
+        <div class="slide-visual flex-center">
+          <!-- Terminal AI -->
+          <div class="terminal-card glass-card">
+            <div class="terminal-header">
+              <div class="dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="terminal-title">ai-consultant.sh</span>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+              <p class="terminal-line system">Initializing AI assistant conversation logs...</p>
+              <p class="terminal-line system">Status: Connected to Gemini 3.5</p>
+              <p class="terminal-line prompt">guest@offsite:~$ ./ask_ai_about_upskilling.sh</p>
+              <p class="terminal-line response" id="terminalOutput">Click one of the queries below to ask the AI model its perspective on upskilling.</p>
+            </div>
+            <div class="terminal-controls">
+              <button class="terminal-btn" data-query="ai">What does upskilling mean to you as an AI?</button>
+              <button class="terminal-btn" data-query="human">Why should humans upskill?</button>
+              <button class="terminal-btn" data-query="fragility">What is "reducing future fragility"?</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: Hulk vs Hulkbuster Game -->
+    <section class="slide" id="slide-5">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">THE SHOWDOWN</div>
+          <h2 class="slide-title">Upskill <span class="text-gradient">or Smash?</span></h2>
+          <p class="slide-desc">
+            Faced with the <strong>Hulkbuster</strong> of AI automation, shifting markets, and changing toolsets: how do you react?
+          </p>
+          <div class="instructions-card glass-card">
+            <h4>How will you fight?</h4>
+            <p>Choose your strategy below to see if traditional brute force or modern upskilling wins the battle.</p>
+          </div>
+          <div class="game-controls">
+            <button class="game-btn danger" id="btnSmash">
+              <span class="btn-icon">✊</span>
+              <div class="btn-text">
+                <span class="title">Brute Force Smash</span>
+                <span class="sub">Work 80-hour weeks with old tools</span>
+              </div>
+            </button>
+            <button class="game-btn success" id="btnHack">
+              <span class="btn-icon">⚡</span>
+              <div class="btn-text">
+                <span class="title">Upskill & Hack</span>
+                <span class="sub">Python + AI Prompt Engineering</span>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="slide-visual flex-center">
+          <div class="arcade-card glass-card">
+            <div class="arcade-screen" id="arcadeScreen">
+              <!-- Game UI -->
+              <div class="health-bars">
+                <div class="health-container">
+                  <div class="health-label">HULK (YOU)</div>
+                  <div class="health-bar-bg">
+                    <div class="health-bar green" id="hulkHP" style="width: 100%;"></div>
+                  </div>
+                </div>
+                <div class="health-container">
+                  <div class="health-label">HULKBUSTER (AI & SHIFTS)</div>
+                  <div class="health-bar-bg">
+                    <div class="health-bar red" id="busterHP" style="width: 100%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Retro Battle Ground -->
+              <div class="battleground">
+                <!-- Hulk CSS representation -->
+                <div class="fighter hulk" id="hulkFighter">
+                  <div class="hulk-body">
+                    <div class="hulk-head">😡</div>
+                    <div class="hulk-fists">✊✊</div>
+                    <div class="hulk-accessories" id="hulkGlasses"></div>
+                  </div>
+                  <div class="fighter-tag">Hulk (Legacy)</div>
+                </div>
+
+                <!-- Hulkbuster CSS representation -->
+                <div class="fighter buster" id="busterFighter">
+                  <div class="buster-body">
+                    <div class="buster-head" id="busterHead">🤖</div>
+                    <div class="buster-cannon">💥</div>
+                  </div>
+                  <div class="fighter-tag">Hulkbuster 3000</div>
+                </div>
+
+                <div class="damage-popup" id="damagePopup">WHACK!</div>
+                <div class="laser-beam" id="laserBeam"></div>
+              </div>
+
+              <div class="arcade-console" id="arcadeConsole">
+                Ready for Round 1! Choose a strategy on the left.
+              </div>
+            </div>
+            <div class="arcade-reset">
+              <button class="reset-btn" id="btnResetGame">Reset Showdown</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bottom Navigation Panel -->
+  <div class="nav-panel glass-card">
+    <button class="nav-btn" id="prevBtn" disabled>← Prev</button>
+    <div class="slide-indicator">
+      <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">5</span>
+    </div>
+    <button class="nav-btn" id="nextBtn">Next →</button>
+    <div class="shortcut-hint">Arrow Keys / Space to navigate</div>
+  </div>
+
+  <!-- Floating Slide Dots Navigation -->
+  <div class="dots-nav">
+    <button class="dot-nav active" data-slide="1" title="Upskilling: The Master Pillar"></button>
+    <button class="dot-nav" data-slide="2" title="Ownership & Accountability"></button>
+    <button class="dot-nav" data-slide="3" title="Multiplying Business Impact"></button>
+    <button class="dot-nav" data-slide="4" title="Reducing Future Fragility"></button>
+    <button class="dot-nav" data-slide="5" title="The Showdown"></button>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

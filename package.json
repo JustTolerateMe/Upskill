@@ -1,0 +1,11 @@
+{
+  "name": "upskilling-presentation",
+  "version": "1.0.0",
+  "description": "An interactive, meme-rich presentation website about Upskilling.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
