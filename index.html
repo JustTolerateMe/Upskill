@@ -9,7 +9,25 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1.0.1">
+  <script>
+    window.onerror = function(message, source, lineno, colno, error) {
+      const div = document.createElement('div');
+      div.style.position = 'fixed';
+      div.style.top = '0';
+      div.style.left = '0';
+      div.style.width = '100vw';
+      div.style.background = 'rgba(255,0,0,0.95)';
+      div.style.color = 'white';
+      div.style.padding = '20px';
+      div.style.zIndex = '10000';
+      div.style.fontFamily = 'monospace';
+      div.style.whiteSpace = 'pre-wrap';
+      div.textContent = 'JS Error: ' + message + '\nSource: ' + source + '\nLine: ' + lineno + ':' + colno + '\nError: ' + (error ? error.stack : '');
+      document.body.appendChild(div);
+      return false;
+    };
+  </script>
 </head>
 <body>
 
@@ -28,36 +46,27 @@
     
     <!-- Slide 1: Intro (Naam toh suna hi hoga + Oxford Def) -->
     <section class="slide active" id="slide-1">
-      <div class="slide-grid">
-        <div class="slide-content text-left">
-          <div class="tag green-glow">THE 5TH PILLAR</div>
-          <h1 class="headline">Upskilling...<br><span class="text-gradient">Naam toh suna hi hoga 😎</span></h1>
-          
-          <div class="dictionary-card glass-card">
-            <div class="word-pron">
-              <span class="word">up•skill</span>
-              <span class="pron">/ˌʌpˈskɪl/</span>
-              <span class="pos">verb</span>
-            </div>
-            <p class="definition">
-              "To learn new skills or teach workers new skills, especially in order to do a job more efficiently or adapt to changing workflows."
-            </p>
-            <div class="usage-note">
-              Source: Oxford English Dictionary. Or as we call it: <em>The survival kit for 2026.</em>
-            </div>
-          </div>
-
-          <p class="slide-desc mt-4">
-            We talk about values like Ownership, Accountability, Impact, and Teamwork. But in a fast-shifting, AI-driven landscape, none of those work without Upskilling.
-          </p>
-        </div>
+      <div class="slide-centered-content">
+        <div class="tag green-glow" style="margin-bottom: 20px;">THE 5TH PILLAR</div>
+        <h1 class="headline" style="font-size: 3.5rem; text-align: center; margin-bottom: 20px;">Upskilling...<br><span class="text-gradient">Naam toh suna hi hoga</span> 😎</h1>
         
-        <div class="slide-visual">
-          <div class="hero-image-frame glass-card">
-            <img src="assets/carrying_pillars.jpg" alt="Upskilling carrying the other four pillars" class="hero-image">
-            <div class="hero-caption">Why Upskilling is the Master Pillar</div>
+        <div class="dictionary-card glass-card" style="max-width: 650px; width: 100%; margin: 20px auto; text-align: left;">
+          <div class="word-pron">
+            <span class="word">up•skill</span>
+            <span class="pron">/ˌʌpˈskɪl/</span>
+            <span class="pos">verb</span>
+          </div>
+          <p class="definition">
+            "To learn new skills or teach workers new skills, especially in order to do a job more efficiently or adapt to changing workflows."
+          </p>
+          <div class="usage-note">
+            Source: Oxford English Dictionary. Or as we call it: <em>The survival kit for 2026.</em>
           </div>
         </div>
+
+        <p class="slide-desc" style="max-width: 700px; text-align: center; margin: 25px auto 0 auto; font-size: 1.15rem;">
+          We talk about values like Ownership, Accountability, Impact, and Teamwork. But in a fast-shifting, AI-driven landscape, none of those work without Upskilling.
+        </p>
       </div>
     </section>
 
@@ -147,25 +156,14 @@
               If someone refuses to learn, they become slower, less efficient, and dependent on others. Accountability weakens when your static output drags down the team.
             </p>
           </div>
+
         </div>
 
         <div class="slide-visual flex-center">
-          <div class="meme-cards-container">
-            <!-- Dino card -->
-            <div class="meme-card dinosaur glass-card">
-              <div class="card-glow red"></div>
-              <span class="meme-emoji">🦕</span>
-              <h4>Fragile Dinosaur</h4>
-              <p class="meme-quote">"But I've done it this way for 10 years!"</p>
-              <div class="meme-status bad">Vulnerable to shifts</div>
-            </div>
-            <!-- Future card -->
-            <div class="meme-card hacker glass-card">
-              <div class="card-glow green"></div>
-              <span class="meme-emoji">⚡</span>
-              <h4>Upskilled Adaptor</h4>
-              <p class="meme-quote">"Let me automate that workflow in 5 minutes."</p>
-              <div class="meme-status good">Reduces Fragility</div>
+          <div class="hero-image-frame glass-card" style="width: 100%; max-width: 480px; padding: 16px; display: flex; flex-direction: column; align-items: center; border-color: rgba(0, 255, 135, 0.2); box-shadow: var(--shadow-glow-green);">
+            <img src="assets/carrying_pillars.jpg" alt="Upskilling carrying the other four pillars" class="hero-image" style="width: 100%; border-radius: 10px; display: block; object-fit: cover; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+            <div class="hero-caption" style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 12px; font-family: var(--font-mono); font-weight: bold; color: var(--neon-green); text-align: center;">
+              Upskilling: The Master Pillar
             </div>
           </div>
         </div>
@@ -238,8 +236,141 @@
       </div>
     </section>
 
-    <!-- Slide 5: Hulk vs Hulkbuster Game -->
+    <!-- Slide 5: How to Upskill (The Habit Loop) -->
     <section class="slide" id="slide-5">
+      <div class="slide-grid">
+        <div class="slide-content text-left">
+          <div class="tag green-glow">THE METHODOLOGY</div>
+          <h2 class="slide-title">How to Upskill: <span class="text-gradient">The Habit Loop</span></h2>
+          <p class="slide-desc" style="margin-bottom: 15px;">
+            Upskilling is a continuous, self-running engine of daily habits. Watch the loop in action or click a habit to inspect it.
+          </p>
+          
+          <div class="habit-tree">
+            <!-- Node 1 -->
+            <div class="habit-node active" data-habit="1">
+              <div class="node-icon">🧪</div>
+              <div class="node-details">
+                <h3>1. Build in a Sandbox</h3>
+                <p>Spend 30 minutes in a zero-risk playground testing new tools.</p>
+              </div>
+            </div>
+            <!-- Node 2 -->
+            <div class="habit-node" data-habit="2">
+              <div class="node-icon">🤖</div>
+              <div class="node-details">
+                <h3>2. Automate a Chore</h3>
+                <p>Pick a boring manual task and automate it using Python or AI.</p>
+              </div>
+            </div>
+            <!-- Node 3 -->
+            <div class="habit-node" data-habit="3">
+              <div class="node-icon">📢</div>
+              <div class="node-details">
+                <h3>3. Share a Weekly Tip</h3>
+                <p>Post a quick script or shortcut to your team's chat channel.</p>
+              </div>
+            </div>
+            <!-- Node 4 -->
+            <div class="habit-node" data-habit="4">
+              <div class="node-icon">👥</div>
+              <div class="node-details">
+                <h3>4. Reverse Shadow</h3>
+                <p>Spend 1 hour shadowing a colleague or leadership exchange.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide-visual flex-center">
+          <div class="habit-panel glass-card">
+            
+            <!-- Panel 1: Sandbox -->
+            <div class="habit-panel-content active" id="habit-panel-1">
+              <h3>Personal Sandbox</h3>
+              <div class="panel-subtitle">Simulating terminal tests & script executions</div>
+              <div class="sandbox-console">
+                <div id="sandboxOutput" style="height: 100%; overflow-y: auto;">Preparing terminal sandbox environment...</div>
+              </div>
+              <div class="sandbox-status-container" style="margin-top: 12px; display: flex; align-items: center; justify-content: space-between; font-family: var(--font-mono); font-size: 0.75rem;">
+                <span style="color: var(--text-secondary);">STATUS:</span>
+                <span class="status-badge" id="sandboxStatusBadge" style="background: rgba(0, 240, 255, 0.15); color: var(--neon-cyan); border: 1px solid var(--neon-cyan); padding: 2px 8px; border-radius: 4px; font-weight: 700; box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);">BOOTING</span>
+              </div>
+            </div>
+
+            <!-- Panel 2: Automate -->
+            <div class="habit-panel-content" id="habit-panel-2">
+              <h3>Chore Automation</h3>
+              <div class="panel-subtitle">Visualizing weekly time reclaimed</div>
+              <div class="automation-display">
+                <div class="stat-box">
+                  <div class="stat-num" id="weeklyTime">4.0</div>
+                  <div class="stat-label">Hours Reclaimed</div>
+                </div>
+                <div class="stat-box">
+                  <div class="stat-num text-cyan" id="automationPct">0%</div>
+                  <div class="stat-label">Automation Level</div>
+                </div>
+              </div>
+              <div class="custom-progress-container" style="position: relative; margin-bottom: 15px; margin-top: 5px;">
+                <div class="custom-progress-track" style="height: 10px; background: rgba(255, 255, 255, 0.05); border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.03); overflow: hidden; position: relative;">
+                  <div class="custom-progress-fill" id="customProgressFill" style="height: 100%; width: 0%; background: var(--grad-primary); box-shadow: 0 0 10px var(--neon-green); transition: width 0.1s linear;"></div>
+                </div>
+              </div>
+              <div class="automation-log" id="automationLog">Scanning spreadsheet chores...</div>
+            </div>
+
+            <!-- Panel 3: Share -->
+            <div class="habit-panel-content" id="habit-panel-3">
+              <h3>Knowledge Share Feed</h3>
+              <div class="panel-subtitle">Weekly tips & teammate reaction streams</div>
+              <div class="chat-window">
+                <div id="chatStream" style="display: flex; flex-direction: column; gap: 8px;">
+                  <div class="chat-message system">[Channel: #development-tips]</div>
+                  <div class="chat-message sent">
+                    <strong>You:</strong> Hey team! Here is the script to auto-generate weekly sprint summaries using the API: <code>sprint_gen.py</code>.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 4: Shadowing -->
+            <div class="habit-panel-content" id="habit-panel-4">
+              <h3>Bilateral Exchange</h3>
+              <div class="panel-subtitle">Junior/Senior mutual upskilling loop</div>
+              <div class="shadowing-diagram">
+                <!-- Junior -->
+                <div class="member junior">
+                  <div class="avatar">👨‍💻</div>
+                  <span>Junior Dev</span>
+                </div>
+                <!-- Arrows -->
+                <div class="arrow-container">
+                  <div class="arrow-path left-to-right" id="arrowLtoR">
+                    <span class="arrow-tip">▶</span>
+                  </div>
+                  <div class="arrow-path right-to-left" id="arrowRtoL">
+                    <span class="arrow-tip">◀</span>
+                  </div>
+                </div>
+                <!-- Senior -->
+                <div class="member senior">
+                  <div class="avatar">👩‍💼</div>
+                  <span>Senior Leader</span>
+                </div>
+              </div>
+              <div class="shadowing-desc" id="shadowingDesc">
+                Initializing reverse shadowing session...
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: Hulk vs Hulkbuster Game -->
+    <section class="slide" id="slide-6">
       <div class="slide-grid">
         <div class="slide-content text-left">
           <div class="tag green-glow">THE SHOWDOWN</div>
@@ -331,7 +462,7 @@
   <div class="nav-panel glass-card">
     <button class="nav-btn" id="prevBtn" disabled>← Prev</button>
     <div class="slide-indicator">
-      <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">5</span>
+      <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">6</span>
     </div>
     <button class="nav-btn" id="nextBtn">Next →</button>
     <div class="shortcut-hint">Arrow Keys / Space to navigate</div>
@@ -343,10 +474,11 @@
     <button class="dot-nav" data-slide="2" title="AI Perspective"></button>
     <button class="dot-nav" data-slide="3" title="Ownership & Accountability"></button>
     <button class="dot-nav" data-slide="4" title="Business Impact & Teamwork"></button>
-    <button class="dot-nav" data-slide="5" title="The Showdown"></button>
+    <button class="dot-nav" data-slide="5" title="How to Upskill"></button>
+    <button class="dot-nav" data-slide="6" title="The Showdown"></button>
   </div>
 
   <!-- Scripts -->
-  <script src="app.js"></script>
+  <script src="app.js?v=1.0.1"></script>
 </body>
 </html>

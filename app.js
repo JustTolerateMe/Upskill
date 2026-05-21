@@ -41,6 +41,13 @@ function updateNavigation() {
   // Enable/Disable buttons
   if (prevBtn) prevBtn.disabled = activeSlideIndex === 0;
   if (nextBtn) nextBtn.disabled = activeSlideIndex === totalSlidesCount - 1;
+
+  // Handle Slide 5 Autoplay
+  if (activeSlideIndex === 4) {
+    startSlide5Autoplay();
+  } else {
+    stopSlide5Autoplay();
+  }
 }
 
 function goToNextSlide() {
@@ -230,6 +237,7 @@ const hulkFighter = document.getElementById('hulkFighter');
 const busterFighter = document.getElementById('busterFighter');
 const busterHead = document.getElementById('busterHead');
 const hulkGlasses = document.getElementById('hulkGlasses');
+const hulkHead = hulkFighter ? hulkFighter.querySelector('.hulk-head') : null;
 const damagePopup = document.getElementById('damagePopup');
 const laserBeam = document.getElementById('laserBeam');
 const arcadeConsole = document.getElementById('arcadeConsole');
@@ -308,6 +316,7 @@ function executeSmash() {
     } else if (hulkHP === 20) {
       arcadeConsole.textContent = "Hulk tried working weekends! Hulkbuster fired an executive workflow pivot. Hulk is failing!";
     } else if (hulkHP === 0) {
+      if (hulkHead) hulkHead.textContent = '💀';
       arcadeConsole.textContent = "KO! Refusing to learn became a business risk. Legacy workflow terminated.";
       isGameOver = true;
       btnSmash.disabled = true;
@@ -323,6 +332,7 @@ function executeHack() {
   // Enter Hacker Mode!
   hulkFighter.classList.add('hacker-mode');
   hulkGlasses.textContent = '🕶️';
+  if (hulkHead) hulkHead.textContent = '😎';
   playSound(600, 'sine', 0.1);
   setTimeout(() => playSound(800, 'sine', 0.15), 100);
 
@@ -368,6 +378,7 @@ function resetGame() {
   
   hulkFighter.classList.remove('hacker-mode');
   hulkGlasses.textContent = '';
+  if (hulkHead) hulkHead.textContent = '😡';
   busterHead.textContent = '🤖';
   hulkFighter.style.transform = 'translateX(0) rotate(0)';
   busterFighter.style.transform = 'translateX(0) rotate(0)';
@@ -382,3 +393,447 @@ function resetGame() {
 if (btnSmash) btnSmash.addEventListener('click', executeSmash);
 if (btnHack) btnHack.addEventListener('click', executeHack);
 if (btnResetGame) btnResetGame.addEventListener('click', resetGame);
+
+
+// ==========================================
+// SLIDE 5: HABIT LOOP AUTOPLAY LOGIC
+// ==========================================
+
+const habitNodes = document.querySelectorAll('.habit-node');
+const habitPanelContents = document.querySelectorAll('.habit-panel-content');
+
+let slide5AutoplayTimer = null;
+let slide5CurrentHabit = 1;
+
+// Sub-animation states
+let sandboxTypewriterInterval = null;
+let sandboxTimeouts = [];
+let automateProgressInterval = null;
+let shareTimeouts = [];
+let shadowCycleTimeout = null;
+
+function startSlide5Autoplay() {
+  if (slide5AutoplayTimer) return; // Already running
+  
+  // Start from Habit 1
+  slide5CurrentHabit = 1;
+  triggerHabitAnimation(1);
+  
+  slide5AutoplayTimer = setInterval(() => {
+    slide5CurrentHabit = (slide5CurrentHabit % 4) + 1;
+    triggerHabitAnimation(slide5CurrentHabit);
+  }, 8000);
+}
+
+function stopSlide5Autoplay() {
+  if (slide5AutoplayTimer) {
+    clearInterval(slide5AutoplayTimer);
+    slide5AutoplayTimer = null;
+  }
+  
+  // Clean up all running sub-animations
+  clearAllSubAnimations();
+}
+
+function clearAllSubAnimations() {
+  // Clear Sandbox typing timeouts
+  sandboxTimeouts.forEach(t => clearTimeout(t));
+  sandboxTimeouts = [];
+
+  // Clear Sandbox typewriter interval
+  if (sandboxTypewriterInterval) {
+    clearInterval(sandboxTypewriterInterval);
+    sandboxTypewriterInterval = null;
+  }
+  
+  // Clear Automate progress interval
+  if (automateProgressInterval) {
+    clearInterval(automateProgressInterval);
+    automateProgressInterval = null;
+  }
+  
+  // Clear Share timeouts
+  shareTimeouts.forEach(t => clearTimeout(t));
+  shareTimeouts = [];
+  
+  // Clear Shadowing timeouts
+  if (shadowCycleTimeout) {
+    clearTimeout(shadowCycleTimeout);
+    shadowCycleTimeout = null;
+  }
+}
+
+// Bind click listeners to nodes for manual override
+habitNodes.forEach(node => {
+  node.addEventListener('click', () => {
+    const habitId = parseInt(node.getAttribute('data-habit'));
+    
+    // Jump to clicked habit
+    slide5CurrentHabit = habitId;
+    triggerHabitAnimation(habitId);
+    
+    // Reset global autoplay timer
+    if (slide5AutoplayTimer) {
+      clearInterval(slide5AutoplayTimer);
+      slide5AutoplayTimer = setInterval(() => {
+        slide5CurrentHabit = (slide5CurrentHabit % 4) + 1;
+        triggerHabitAnimation(slide5CurrentHabit);
+      }, 8000);
+    }
+  });
+});
+
+function triggerHabitAnimation(habitId) {
+  // 1. Highlight current node
+  habitNodes.forEach(node => {
+    const nodeHabit = parseInt(node.getAttribute('data-habit'));
+    node.classList.toggle('active', nodeHabit === habitId);
+  });
+  
+  // 2. Show correct panel
+  habitPanelContents.forEach(panel => {
+    const panelId = panel.getAttribute('id');
+    panel.classList.toggle('active', panelId === `habit-panel-${habitId}`);
+  });
+  
+  // 3. Reset all panels to clean initial state and clear active animations
+  clearAllSubAnimations();
+  resetPanelVisuals();
+  
+  // 4. Run the selected animation
+  if (habitId === 1) {
+    runSandboxAnimation();
+  } else if (habitId === 2) {
+    runAutomateAnimation();
+  } else if (habitId === 3) {
+    runShareAnimation();
+  } else if (habitId === 4) {
+    runShadowAnimation();
+  }
+}
+
+function resetPanelVisuals() {
+  // Habit 1 reset
+  const sandboxOutput = document.getElementById('sandboxOutput');
+  const sandboxStatus = document.getElementById('sandboxStatusBadge');
+  if (sandboxOutput) sandboxOutput.textContent = 'Preparing terminal sandbox environment...';
+  if (sandboxStatus) {
+    sandboxStatus.textContent = 'BOOTING';
+    sandboxStatus.style.background = 'rgba(0, 240, 255, 0.15)';
+    sandboxStatus.style.borderColor = 'var(--neon-cyan)';
+    sandboxStatus.style.color = 'var(--neon-cyan)';
+    sandboxStatus.style.boxShadow = '0 0 8px rgba(0, 240, 255, 0.3)';
+  }
+  
+  // Habit 2 reset
+  const customProgressFill = document.getElementById('customProgressFill');
+  const weeklyTime = document.getElementById('weeklyTime');
+  const automationPct = document.getElementById('automationPct');
+  const automationLog = document.getElementById('automationLog');
+  if (customProgressFill) customProgressFill.style.width = '0%';
+  if (weeklyTime) {
+    weeklyTime.textContent = '4.0';
+    weeklyTime.className = 'stat-num';
+  }
+  if (automationPct) automationPct.textContent = '0%';
+  if (automationLog) automationLog.textContent = 'Scanning spreadsheet chores...';
+  
+  // Habit 3 reset
+  const chatStream = document.getElementById('chatStream');
+  if (chatStream) {
+    chatStream.innerHTML = `
+      <div class="chat-message system">[Channel: #development-tips]</div>
+      <div class="chat-message sent">
+        <strong>You:</strong> Hey team! Here is the script to auto-generate weekly sprint summaries using the API: <code>sprint_gen.py</code>.
+      </div>
+    `;
+  }
+  
+  // Habit 4 reset
+  const arrowLtoR = document.getElementById('arrowLtoR');
+  const arrowRtoL = document.getElementById('arrowRtoL');
+  const shadowingDesc = document.getElementById('shadowingDesc');
+  if (arrowLtoR) arrowLtoR.classList.remove('active');
+  if (arrowRtoL) arrowRtoL.classList.remove('active');
+  if (shadowingDesc) shadowingDesc.textContent = 'Initializing reverse shadowing session...';
+}
+
+function typewriterText(element, text, speed, onComplete) {
+  element.textContent = '';
+  let i = 0;
+  sandboxTypewriterInterval = setInterval(() => {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      if (element.parentElement) {
+        element.parentElement.scrollTop = element.parentElement.scrollHeight;
+      }
+    } else {
+      clearInterval(sandboxTypewriterInterval);
+      sandboxTypewriterInterval = null;
+      if (onComplete) onComplete();
+    }
+  }, speed);
+}
+
+function runSandboxAnimation() {
+  const sandboxOutput = document.getElementById('sandboxOutput');
+  const sandboxStatus = document.getElementById('sandboxStatusBadge');
+  if (!sandboxOutput || !sandboxStatus) return;
+  
+  const text1 = `[System] Booting LLM environment...\nuser@sandbox:~$ gemini-3.5 --prompt="Analyze spreadsheet anomalies"\n\nGemini: Found 3 spikes in marketing spend. Auto-generated Python script for correction.`;
+  const text2 = `\n\nuser@sandbox:~$ python auto_cleanup.py\n[Process] Merging CSV datasets...\n[Success] Reclaimed 1.8 GB disk space. Reclaimed ~40 mins of copy-pasting.`;
+  const text3 = `\n\nuser@sandbox:~$ node parse_emails.js --pattern="[a-zA-Z]+@company.com"\n[Regex] Scanning 2,500 database logs...\n[Success] Matched 42 emails in 4ms.`;
+
+  sandboxStatus.textContent = 'AI PROMPT';
+  sandboxStatus.style.background = 'rgba(0, 240, 255, 0.15)';
+  sandboxStatus.style.borderColor = 'var(--neon-cyan)';
+  sandboxStatus.style.color = 'var(--neon-cyan)';
+  sandboxStatus.style.boxShadow = '0 0 8px rgba(0, 240, 255, 0.3)';
+  playSound(400, 'sine', 0.05);
+  typewriterText(sandboxOutput, text1, 6);
+
+  sandboxTimeouts.push(setTimeout(() => {
+    sandboxStatus.textContent = 'PYTHON RUNNING';
+    sandboxStatus.style.background = 'rgba(255, 153, 0, 0.15)';
+    sandboxStatus.style.borderColor = 'var(--neon-orange)';
+    sandboxStatus.style.color = 'var(--neon-orange)';
+    sandboxStatus.style.boxShadow = '0 0 8px rgba(255, 153, 0, 0.3)';
+    playSound(450, 'sine', 0.05);
+    
+    let i = 0;
+    sandboxTypewriterInterval = setInterval(() => {
+      if (i < text2.length) {
+        sandboxOutput.textContent += text2.charAt(i);
+        i++;
+        if (sandboxOutput.parentElement) sandboxOutput.parentElement.scrollTop = sandboxOutput.parentElement.scrollHeight;
+      } else {
+        clearInterval(sandboxTypewriterInterval);
+        sandboxTypewriterInterval = null;
+      }
+    }, 6);
+  }, 2600));
+
+  sandboxTimeouts.push(setTimeout(() => {
+    sandboxStatus.textContent = 'REGEX COMPILE';
+    sandboxStatus.style.background = 'rgba(189, 0, 255, 0.15)';
+    sandboxStatus.style.borderColor = 'var(--neon-purple)';
+    sandboxStatus.style.color = 'var(--neon-purple)';
+    sandboxStatus.style.boxShadow = '0 0 8px rgba(189, 0, 255, 0.3)';
+    playSound(500, 'sine', 0.05);
+    
+    let i = 0;
+    sandboxTypewriterInterval = setInterval(() => {
+      if (i < text3.length) {
+        sandboxOutput.textContent += text3.charAt(i);
+        i++;
+        if (sandboxOutput.parentElement) sandboxOutput.parentElement.scrollTop = sandboxOutput.parentElement.scrollHeight;
+      } else {
+        clearInterval(sandboxTypewriterInterval);
+        sandboxTypewriterInterval = null;
+      }
+    }, 6);
+  }, 5200));
+
+  sandboxTimeouts.push(setTimeout(() => {
+    sandboxStatus.textContent = 'SUCCESS';
+    sandboxStatus.style.background = 'rgba(0, 255, 135, 0.15)';
+    sandboxStatus.style.borderColor = 'var(--neon-green)';
+    sandboxStatus.style.color = 'var(--neon-green)';
+    sandboxStatus.style.boxShadow = '0 0 8px rgba(0, 255, 135, 0.3)';
+    playSound(550, 'sine', 0.15);
+  }, 7200));
+}
+
+function runAutomateAnimation() {
+  const customProgressFill = document.getElementById('customProgressFill');
+  const weeklyTime = document.getElementById('weeklyTime');
+  const automationPct = document.getElementById('automationPct');
+  const automationLog = document.getElementById('automationLog');
+  if (!customProgressFill || !weeklyTime || !automationPct || !automationLog) return;
+
+  const autoLogMessages = [
+    "Scanning spreadsheet workflows...",
+    "Connecting database sheets to Python parser...",
+    "Testing auto-cleaning regex filters...",
+    "Refining cron schedules for weekly execution...",
+    "Setting script to run autonomously in cloud server!",
+    "Deployment complete! Chores automated successfully."
+  ];
+
+  let elapsed = 0;
+  const duration = 5000; 
+  const intervalTime = 50;
+  let lastSoundTime = 0;
+
+  automateProgressInterval = setInterval(() => {
+    elapsed += intervalTime;
+    const progress = Math.min(1.0, elapsed / duration);
+    const pct = Math.floor(progress * 95);
+    
+    customProgressFill.style.width = `${pct}%`;
+    automationPct.textContent = `${pct}%`;
+    
+    const timeReclaimed = (4.0 * (pct / 100)).toFixed(1);
+    weeklyTime.textContent = timeReclaimed;
+    
+    if (pct >= 90) {
+      weeklyTime.className = "stat-num text-cyan";
+    } else if (pct > 50) {
+      weeklyTime.className = "stat-num text-gradient";
+    } else {
+      weeklyTime.className = "stat-num";
+    }
+
+    const logIndex = Math.min(Math.floor(pct / 18), autoLogMessages.length - 1);
+    automationLog.textContent = autoLogMessages[logIndex];
+
+    if (elapsed - lastSoundTime >= 200 && pct < 95) {
+      playSound(200 + pct * 4, 'sine', 0.04);
+      lastSoundTime = elapsed;
+    }
+
+    if (progress >= 1.0) {
+      clearInterval(automateProgressInterval);
+      automateProgressInterval = null;
+      playSound(600, 'sine', 0.2);
+    }
+  }, intervalTime);
+}
+
+function runShareAnimation() {
+  const chatStream = document.getElementById('chatStream');
+  if (!chatStream) return;
+
+  const reply1 = {
+    name: "Siddharth (Engineer)",
+    msg: "Whoa, this is neat! Can you post a quick link to the repository/script? I want to test it locally.",
+    reaction: "🔥"
+  };
+
+  const reply2 = {
+    name: "Ananya (Design)",
+    msg: "Super helpful. This is going to save the marketing team at least 2 hours of report building every Monday. 🙌",
+    reaction: "👍"
+  };
+
+  shareTimeouts.push(setTimeout(() => {
+    const r1Div = document.createElement('div');
+    r1Div.className = 'chat-message reply';
+    r1Div.innerHTML = `
+      <strong>${reply1.name}:</strong> ${reply1.msg}
+      <div class="chat-reactions">
+        <span class="reaction-tag" id="sidReaction1">${reply1.reaction} <span class="react-count" id="sidCount1">1</span></span>
+        <span class="reaction-tag" id="sidReaction2">💡 <span class="react-count" id="sidCount2">1</span></span>
+      </div>
+    `;
+    chatStream.appendChild(r1Div);
+    playSound(650, 'triangle', 0.1);
+    
+    const chatWindow = chatStream.parentElement;
+    if (chatWindow) chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, 1200));
+
+  shareTimeouts.push(setTimeout(() => {
+    const r1 = document.getElementById('sidReaction1');
+    const r2 = document.getElementById('sidReaction2');
+    const c1 = document.getElementById('sidCount1');
+    const c2 = document.getElementById('sidCount2');
+    
+    if (c1) c1.textContent = '2';
+    if (c2) c2.textContent = '3';
+    
+    if (r1) { r1.style.transform = 'scale(1.25)'; r1.style.borderColor = 'var(--neon-green)'; }
+    if (r2) { r2.style.transform = 'scale(1.25)'; r2.style.borderColor = 'var(--neon-green)'; }
+    playSound(800, 'sine', 0.05);
+    
+    setTimeout(() => {
+      if (r1) r1.style.transform = 'scale(1)';
+      if (r2) r2.style.transform = 'scale(1)';
+    }, 150);
+  }, 2400));
+
+  shareTimeouts.push(setTimeout(() => {
+    const r2Div = document.createElement('div');
+    r2Div.className = 'chat-message reply';
+    r2Div.innerHTML = `
+      <strong>${reply2.name}:</strong> ${reply2.msg}
+      <div class="chat-reactions">
+        <span class="reaction-tag" id="anaReaction1">${reply2.reaction} <span class="react-count" id="anaCount1">1</span></span>
+        <span class="reaction-tag" id="anaReaction2">❤️ <span class="react-count" id="anaCount2">1</span></span>
+      </div>
+    `;
+    chatStream.appendChild(r2Div);
+    playSound(650, 'triangle', 0.1);
+    
+    const chatWindow = chatStream.parentElement;
+    if (chatWindow) chatWindow.scrollTop = chatWindow.scrollHeight;
+  }, 3800));
+
+  shareTimeouts.push(setTimeout(() => {
+    const r1 = document.getElementById('anaReaction1');
+    const r2 = document.getElementById('anaReaction2');
+    const c1 = document.getElementById('anaCount1');
+    const c2 = document.getElementById('anaCount2');
+    
+    if (c1) c1.textContent = '3';
+    if (c2) c2.textContent = '4';
+    
+    if (r1) { r1.style.transform = 'scale(1.25)'; r1.style.borderColor = 'var(--neon-green)'; }
+    if (r2) { r2.style.transform = 'scale(1.25)'; r2.style.borderColor = 'var(--neon-green)'; }
+    playSound(800, 'sine', 0.05);
+    
+    setTimeout(() => {
+      if (r1) r1.style.transform = 'scale(1)';
+      if (r2) r2.style.transform = 'scale(1)';
+    }, 150);
+  }, 5000));
+
+  shareTimeouts.push(setTimeout(() => {
+    const cSid = document.getElementById('sidCount1');
+    const cAna = document.getElementById('anaCount2');
+    if (cSid) cSid.textContent = '5';
+    if (cAna) cAna.textContent = '8';
+    
+    const rSid = document.getElementById('sidReaction1');
+    const rAna = document.getElementById('anaReaction2');
+    
+    if (rSid) { rSid.style.transform = 'scale(1.3)'; rSid.style.borderColor = 'var(--neon-green)'; }
+    if (rAna) { rAna.style.transform = 'scale(1.3)'; rAna.style.borderColor = 'var(--neon-green)'; }
+    playSound(850, 'sine', 0.05);
+    
+    setTimeout(() => {
+      if (rSid) rSid.style.transform = 'scale(1)';
+      if (rAna) rAna.style.transform = 'scale(1)';
+    }, 150);
+  }, 6400));
+}
+
+function runShadowAnimation() {
+  const arrowLtoR = document.getElementById('arrowLtoR');
+  const arrowRtoL = document.getElementById('arrowRtoL');
+  const shadowingDesc = document.getElementById('shadowingDesc');
+  if (!arrowLtoR || !arrowRtoL || !shadowingDesc) return;
+
+  const juniorAvatar = document.querySelector('.member.junior .avatar');
+  const seniorAvatar = document.querySelector('.member.senior .avatar');
+
+  const textJuniorToSenior = `<strong>Junior ➔ Senior Exchange:</strong> The junior employee showcases developer tools, AI prompt-chaining, or custom shortcuts. The senior leader discovers new workflows without getting bogged down.`;
+  const textSeniorToJunior = `<strong>Senior ➔ Junior Exchange:</strong> The senior leader shares product context, market history, and strategic vision. The junior engineer aligns their code directly with business impact.`;
+
+  arrowLtoR.classList.add('active');
+  arrowRtoL.classList.remove('active');
+  if (juniorAvatar) juniorAvatar.style.transform = 'scale(1.2)';
+  if (seniorAvatar) seniorAvatar.style.transform = 'scale(1)';
+  shadowingDesc.innerHTML = textJuniorToSenior;
+  playSound(450, 'sine', 0.05);
+
+  shadowCycleTimeout = setTimeout(() => {
+    arrowLtoR.classList.remove('active');
+    arrowRtoL.classList.add('active');
+    if (juniorAvatar) juniorAvatar.style.transform = 'scale(1)';
+    if (seniorAvatar) seniorAvatar.style.transform = 'scale(1.2)';
+    shadowingDesc.innerHTML = textSeniorToJunior;
+    playSound(480, 'sine', 0.05);
+  }, 4000);
+}
