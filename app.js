@@ -837,3 +837,249 @@ function runShadowAnimation() {
     playSound(480, 'sine', 0.05);
   }, 4000);
 }
+
+
+// ==========================================
+// SLIDE 7: CODENAMES GAME LOGIC
+// ==========================================
+
+function initCodenames() {
+  const redWords = [
+    "BULLSEYE", "REDCARD", "SHIPT", "ROUNDEL", "ENDCAP",
+    "REGISTRY", "DRIVEUP", "GOOD & GATHER", "EVERSPRING", "EXPECT MORE"
+  ];
+  
+  const greenWords = [
+    "TARGET CIRCLE", "CARTWHEEL", "CLEARANCE", "COLLAB", "EXCLUSIVE",
+    "PICKUP", "ALL IN MOTION", "THRESHOLD", "CASALUNA", "PAY LESS"
+  ];
+  
+  const neutralWords = [
+    "OPTICAL", "CLOUD ISLAND", "CAT & JACK", "PRICE MATCH"
+  ];
+  
+  const assassinWords = ["STORE"];
+  
+  const gridContainer = document.getElementById('codenamesGrid');
+  const redCountEl = document.getElementById('redCount');
+  const greenCountEl = document.getElementById('greenCount');
+  const btnReset = document.getElementById('btnResetCodenames');
+  const overlay = document.getElementById('codenamesOverlay');
+  const overlayTitle = document.getElementById('overlayTitle');
+  const overlayMessage = document.getElementById('overlayMessage');
+  const btnOverlayReset = document.getElementById('btnOverlayReset');
+  
+  if (!gridContainer) return;
+
+  let boardCards = [];
+  let redRemaining = 10;
+  let greenRemaining = 10;
+  let isCodenamesGameOver = false;
+
+  function buildBoard() {
+    boardCards = [];
+    
+    // Create card objects
+    redWords.forEach(word => boardCards.push({ word, type: 'red', revealed: false }));
+    greenWords.forEach(word => boardCards.push({ word, type: 'green', revealed: false }));
+    neutralWords.forEach(word => boardCards.push({ word, type: 'neutral', revealed: false }));
+    assassinWords.forEach(word => boardCards.push({ word, type: 'assassin', revealed: false }));
+    
+    // Shuffle using Fisher-Yates
+    for (let i = boardCards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [boardCards[i], boardCards[j]] = [boardCards[j], boardCards[i]];
+    }
+
+    redRemaining = 10;
+    greenRemaining = 10;
+    isCodenamesGameOver = false;
+    
+    if (redCountEl) redCountEl.textContent = redRemaining;
+    if (greenCountEl) greenCountEl.textContent = greenRemaining;
+    
+    if (overlay) overlay.className = 'codenames-overlay';
+    
+    renderBoard();
+    
+    // Play start chime
+    playSound(400, 'sine', 0.1);
+    setTimeout(() => playSound(500, 'sine', 0.1), 80);
+    setTimeout(() => playSound(600, 'sine', 0.15), 160);
+  }
+
+  function renderBoard() {
+    gridContainer.innerHTML = '';
+    
+    boardCards.forEach((card, index) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'codename-card hidden';
+      cardEl.textContent = card.word;
+      
+      // Store type class (red/green/neutral/assassin)
+      cardEl.classList.add(card.type);
+      
+      cardEl.addEventListener('click', () => revealCard(index, cardEl));
+      gridContainer.appendChild(cardEl);
+    });
+  }
+
+  function revealCard(index, cardEl) {
+    if (isCodenamesGameOver) return;
+    
+    const card = boardCards[index];
+    if (card.revealed) return;
+    
+    card.revealed = true;
+    cardEl.classList.remove('hidden');
+    cardEl.classList.add('revealed');
+    
+    if (card.type === 'red') {
+      redRemaining = Math.max(0, redRemaining - 1);
+      if (redCountEl) redCountEl.textContent = redRemaining;
+      
+      // Team click sound
+      playSound(600, 'sine', 0.08);
+      setTimeout(() => playSound(750, 'sine', 0.12), 80);
+      
+      checkVictory();
+    } else if (card.type === 'green') {
+      greenRemaining = Math.max(0, greenRemaining - 1);
+      if (greenCountEl) greenCountEl.textContent = greenRemaining;
+      
+      // Team click sound
+      playSound(600, 'sine', 0.08);
+      setTimeout(() => playSound(750, 'sine', 0.12), 80);
+      
+      checkVictory();
+    } else if (card.type === 'neutral') {
+      // Neutral click sound
+      playSound(450, 'sine', 0.1);
+    } else if (card.type === 'assassin') {
+      // Assassin buzz sound
+      playSound(150, 'sawtooth', 0.6);
+      setTimeout(() => playSound(100, 'sawtooth', 0.7), 200);
+      
+      triggerGameOver(false);
+    }
+  }
+
+  function checkVictory() {
+    if (redRemaining === 0) {
+      triggerGameOver(true, 'red');
+    } else if (greenRemaining === 0) {
+      triggerGameOver(true, 'green');
+    }
+  }
+
+  function triggerGameOver(isWin, winner) {
+    isCodenamesGameOver = true;
+    
+    if (isWin) {
+      if (overlay) {
+        overlay.className = 'codenames-overlay show victory';
+        if (overlayTitle) {
+          overlayTitle.textContent = `${winner.toUpperCase()} TEAM WINS!`;
+        }
+        if (overlayMessage) {
+          overlayMessage.textContent = `All objectives secured! Well played, operatives.`;
+        }
+      }
+      
+      // Victory Fanfare sound
+      playSound(523.25, 'sine', 0.15); // C5
+      setTimeout(() => playSound(659.25, 'sine', 0.15), 150); // E5
+      setTimeout(() => playSound(783.99, 'sine', 0.15), 300); // G5
+      setTimeout(() => playSound(1046.50, 'sine', 0.45), 450); // C6
+    } else {
+      if (overlay) {
+        overlay.className = 'codenames-overlay show';
+        if (overlayTitle) {
+          overlayTitle.textContent = 'GAME OVER';
+        }
+        if (overlayMessage) {
+          overlayMessage.textContent = 'Store infiltrated! Operatives compromised.';
+        }
+      }
+    }
+  }
+
+  if (btnReset) btnReset.addEventListener('click', buildBoard);
+  if (btnOverlayReset) btnOverlayReset.addEventListener('click', buildBoard);
+
+  // Initialize
+  buildBoard();
+}
+
+initCodenames();
+
+// ==========================================
+// BACKGROUND FLOATING PARTICLES GENERATOR
+// ==========================================
+
+function initBackgroundParticles() {
+  const bgWrapper = document.querySelector('.background-wrapper') || document.body;
+
+  // Create Scrolling Tech Grid Background Overlay
+  const gridOverlay = document.createElement('div');
+  gridOverlay.className = 'bg-grid-overlay';
+  bgWrapper.appendChild(gridOverlay);
+
+  // Create Particles Container
+  const container = document.createElement('div');
+  container.className = 'bg-particles-container';
+  container.style.position = 'fixed';
+  container.style.top = '0';
+  container.style.left = '0';
+  container.style.width = '100vw';
+  container.style.height = '100vh';
+  container.style.overflow = 'hidden';
+  container.style.zIndex = '1'; // Behind presentation-container (z-index: 10), but in front of glow-orbs (z-index: 0)
+  container.style.pointerEvents = 'none';
+  bgWrapper.appendChild(container);
+
+  const particleCount = 60; // Beautiful starry dust density
+
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'bg-particle';
+    
+    // Random sizes (2px to 6px)
+    const size = 2 + Math.random() * 4;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.borderRadius = '50%';
+    
+    // Random positions
+    const left = Math.random() * 100;
+    const top = Math.random() * 100;
+    particle.style.left = `${left}%`;
+    particle.style.top = `${top}%`;
+    
+    // Random delays and durations
+    const delay = Math.random() * -30;
+    const duration = 15 + Math.random() * 20; // 15s to 35s
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    // Choose random theme color glow (green, cyan, purple)
+    const colorType = Math.floor(Math.random() * 3);
+    let color = '';
+    if (colorType === 0) {
+      color = 'var(--neon-green)';
+      particle.style.boxShadow = '0 0 8px var(--neon-green), 0 0 16px var(--neon-green)';
+    } else if (colorType === 1) {
+      color = 'var(--neon-cyan)';
+      particle.style.boxShadow = '0 0 8px var(--neon-cyan), 0 0 16px var(--neon-cyan)';
+    } else {
+      color = 'var(--neon-purple)';
+      particle.style.boxShadow = '0 0 8px var(--neon-purple), 0 0 16px var(--neon-purple)';
+    }
+    particle.style.backgroundColor = color;
+    
+    container.appendChild(particle);
+  }
+}
+
+initBackgroundParticles();
+

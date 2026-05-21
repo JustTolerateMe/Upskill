@@ -55,39 +55,168 @@ body {
   align-items: center;
 }
 
+/* Background wrapper to isolate decorative background visuals and prevent layout shifting */
+.background-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 /* Ambient glow orbs in the background */
 .glow-orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(120px);
   z-index: 0;
-  opacity: 0.15;
+  opacity: 0.22;
   pointer-events: none;
 }
 
 .orb-1 {
-  width: 500px;
-  height: 500px;
+  width: 750px;
+  height: 750px;
   background: var(--neon-green);
   top: -10%;
   left: -10%;
+  animation: floatOrb1 25s ease-in-out infinite;
 }
 
 .orb-2 {
-  width: 600px;
-  height: 600px;
+  width: 900px;
+  height: 900px;
   background: var(--neon-purple);
   bottom: -15%;
   right: -10%;
+  animation: floatOrb2 30s ease-in-out infinite;
 }
 
 .orb-3 {
-  width: 400px;
-  height: 400px;
+  width: 650px;
+  height: 650px;
   background: var(--neon-cyan);
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  animation: floatOrb3 20s ease-in-out infinite;
+}
+
+/* Background Orb Animations */
+@keyframes floatOrb1 {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
+    transform: translate3d(60px, 40px, 0) scale(1.1) rotate(120deg);
+  }
+  66% {
+    border-radius: 28% 72% 38% 62% / 42% 53% 47% 58%;
+    transform: translate3d(-30px, 60px, 0) scale(0.95) rotate(240deg);
+  }
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+    transform: translate3d(0, 0, 0) scale(1) rotate(360deg);
+  }
+}
+
+@keyframes floatOrb2 {
+  0% {
+    border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    border-radius: 30% 70% 70% 30% / 50% 30% 70% 50%;
+    transform: translate3d(-80px, -50px, 0) scale(1.15) rotate(-180deg);
+  }
+  100% {
+    border-radius: 50% 50% 30% 70% / 50% 60% 40% 50%;
+    transform: translate3d(0, 0, 0) scale(1) rotate(-360deg);
+  }
+}
+
+@keyframes floatOrb3 {
+  0% {
+    border-radius: 40% 60% 50% 50% / 40% 40% 60% 60%;
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 60% 40% 60% 40% / 50% 60% 40% 50%;
+    transform: translate(-50%, -50%) translate3d(-40px, 60px, 0) scale(1.1) rotate(120deg);
+  }
+  66% {
+    border-radius: 50% 50% 30% 70% / 60% 30% 70% 40%;
+    transform: translate(-50%, -50%) translate3d(50px, -40px, 0) scale(0.9) rotate(240deg);
+  }
+  100% {
+    border-radius: 40% 60% 50% 50% / 40% 40% 60% 60%;
+    transform: translate(-50%, -50%) translate3d(0, 0, 0) scale(1) rotate(360deg);
+  }
+}
+
+/* Scrolling Tech Grid Background Overlay */
+.bg-grid-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center;
+  z-index: 1;
+  pointer-events: none;
+  
+  /* Mask to fade out grid towards edges (gives an incredibly cool glowing center effect) */
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(circle at center, rgba(0,0,0,0.85) 20%, rgba(0,0,0,0) 80%);
+  
+  animation: panGrid 60s linear infinite;
+}
+
+@keyframes panGrid {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 60px 60px;
+  }
+}
+
+/* Background Floating Particles styling */
+.bg-particles-container {
+  opacity: 0.25;
+}
+
+.bg-particle {
+  position: absolute;
+  pointer-events: none;
+  animation: floatBackgroundParticle infinite ease-in-out;
+  user-select: none;
+}
+
+@keyframes floatBackgroundParticle {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(30px, -150px, 0);
+    opacity: 0;
+  }
 }
 
 /* ==========================================
@@ -103,6 +232,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  transform: translateX(15px);
 }
 
 .progress-container {
@@ -170,11 +300,13 @@ body {
 
 .slide-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr 1fr;
   gap: 40px;
   align-items: center;
   height: 100%;
   width: 100%;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
 .slide-centered-content {
@@ -186,6 +318,8 @@ body {
   width: 100%;
   height: 100%;
   z-index: 10;
+  padding: 0 40px;
+  box-sizing: border-box;
 }
 
 .slide-content {
@@ -1152,6 +1286,8 @@ body {
 .nav-panel {
   position: fixed;
   bottom: 25px;
+  left: 50%;
+  transform: translate(calc(-50% + 15px), 0);
   z-index: 90;
   display: flex;
   align-items: center;
@@ -1737,3 +1873,268 @@ body {
     display: none;
   }
 }
+
+/* ==========================================
+   SLIDE 7: CODENAMES GAME STYLES
+   ========================================== */
+.codenames-grid-container {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(11, 15, 25, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.codenames-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 8px;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.codename-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  user-select: none;
+  word-break: break-word;
+  hyphens: auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.codename-card:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--neon-green);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 4px 15px rgba(0, 255, 135, 0.2);
+}
+
+.codename-card:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Revealed Team Styles */
+.codename-card.revealed.red {
+  background: rgba(255, 0, 85, 0.18) !important;
+  border: 2.5px solid var(--neon-red) !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(255, 0, 85, 0.8) !important;
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.35), inset 0 0 12px rgba(255, 0, 85, 0.2) !important;
+  pointer-events: none;
+}
+
+.codename-card.revealed.green {
+  background: rgba(0, 255, 135, 0.18) !important;
+  border: 2.5px solid var(--neon-green) !important;
+  color: #ffffff !important;
+  text-shadow: 0 0 8px rgba(0, 255, 135, 0.8) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 135, 0.35), inset 0 0 12px rgba(0, 255, 135, 0.2) !important;
+  pointer-events: none;
+}
+
+.codename-card.revealed.neutral {
+  background: rgba(156, 163, 175, 0.1) !important;
+  border: 1.5px solid rgba(156, 163, 175, 0.4) !important;
+  color: rgba(156, 163, 175, 0.7) !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.codename-card.revealed.assassin {
+  background: rgba(255, 153, 0, 0.22) !important;
+  border: 3.5px solid var(--neon-orange) !important;
+  color: #ff9900 !important;
+  text-shadow: 0 0 10px rgba(255, 153, 0, 0.8) !important;
+  box-shadow: 0 0 25px rgba(255, 153, 0, 0.5), inset 0 0 15px rgba(255, 153, 0, 0.3) !important;
+  pointer-events: none;
+  animation: assassin-glow-pulse 1.5s infinite alternate;
+}
+
+@keyframes assassin-glow-pulse {
+  0% { box-shadow: 0 0 15px rgba(255, 153, 0, 0.25), inset 0 0 10px rgba(255, 153, 0, 0.2); }
+  100% { box-shadow: 0 0 30px rgba(255, 153, 0, 0.6), inset 0 0 20px rgba(255, 153, 0, 0.4); }
+}
+
+
+
+/* Scores & Panel Styles */
+.team-score {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.team-score.red-score {
+  border-left: 3px solid var(--neon-red);
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.05);
+}
+
+.team-score.green-score {
+  border-left: 3px solid var(--neon-green);
+  box-shadow: 0 0 10px rgba(0, 255, 135, 0.05);
+}
+
+.score-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.score-value {
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 800;
+}
+
+.red-score .score-value {
+  color: var(--neon-red);
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+.green-score .score-value {
+  color: var(--neon-green);
+  text-shadow: 0 0 10px rgba(0, 255, 135, 0.3);
+}
+
+
+
+/* Game Over / Victory Overlay */
+.codenames-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.codenames-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.codenames-overlay .overlay-content {
+  padding: 40px;
+  text-align: center;
+  max-width: 450px;
+  width: 90%;
+  border: 1px solid rgba(255, 0, 85, 0.25);
+  box-shadow: 0 0 30px rgba(255, 0, 85, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 16px;
+}
+
+.codenames-overlay.victory .overlay-content {
+  border: 1px solid rgba(0, 255, 135, 0.25);
+  box-shadow: 0 0 30px rgba(0, 255, 135, 0.15);
+}
+
+.codenames-overlay h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+  color: var(--neon-red);
+  text-shadow: 0 0 12px rgba(255, 0, 85, 0.5);
+}
+
+.codenames-overlay.victory h2 {
+  color: var(--neon-green);
+  text-shadow: 0 0 12px rgba(0, 255, 135, 0.5);
+}
+
+.codenames-overlay p {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+/* Slide 7 Layout adjustments - Bigger Grid, Smaller Content */
+#slide-7 .slide-grid {
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 30px;
+}
+
+#slide-7 .slide-title {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+#slide-7 .slide-desc {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+#slide-7 .tag {
+  margin-bottom: 12px;
+  padding: 4px 10px;
+}
+
+#slide-7 .game-info-card {
+  padding: 12px !important;
+  margin-bottom: 15px !important;
+}
+
+#slide-7 .scores-panel {
+  gap: 12px !important;
+  margin-bottom: 10px !important;
+}
+
+#slide-7 .team-score {
+  padding: 6px 10px !important;
+}
+
+#slide-7 .score-label {
+  font-size: 0.6rem !important;
+}
+
+#slide-7 .score-value {
+  font-size: 1.4rem !important;
+}
+
+#slide-7 .reset-btn {
+  padding: 8px !important;
+  font-size: 0.8rem !important;
+}
+
+#slide-7 .instruction-box {
+  font-size: 0.7rem !important;
+  line-height: 1.35 !important;
+}
+
